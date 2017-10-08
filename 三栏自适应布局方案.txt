@@ -1,0 +1,288 @@
+一道面试题引发的思考：
+三栏布局，两侧固定宽度，中间自适应解决方案！我一共总结了 6种解决方案。我们一起来看看吧。
+　　其中只有 flex布局 和 表格布局 能够自适应高度。 各种方案的取舍还要看 具体需求和情况 没有绝对。
+
+　　一：自浮动布局
+
+　　　　优点：兼容性好些，简单。
+
+　　　　缺点：浮动有破坏性，浮动的设计之初是 为了实现文字环绕效果，所以不能高度自适应。
+
+　　
+
+ 1 <style>
+ 2         html *{
+ 3             padding:0;
+ 4             margin:0;
+ 5         }
+ 6         .loyaot-float article div{
+ 7             min-height: 100px;
+ 8         }
+ 9         .loyaot-float .left{
+10             float: left;
+11             width: 300px;
+12             background: red;
+13         }
+14         .loyaot-float .right{
+15             float: right;
+16             width: 300px;
+17             background: yellow;
+18         }
+19         .loyaot-float .center{
+20             background: #a4ffff;
+21         }
+22     </style>
+ 1 <section class="loyaot-float">
+ 2         <article>
+ 3             <div class="left"></div>
+ 4             <div class="right"></div>
+ 5             <div class="center">
+ 6                 <p>我是自浮动布局</p>
+ 7                 <p>我是自浮动布局</p>
+ 8                 <p>我是自浮动布局</p>
+ 9                 <p>我是自浮动布局</p>
+10             </div>
+11         </article>
+12     </section>
+　　二. 浮动 + margin负边距
+
+　　　　优点：兼容性好些，用的网站多些。
+
+　　　　缺点：有点难以理解。不能高度自适应
+
+ 1 <style>
+ 2         html *{
+ 3             padding: 0;
+ 4             margin: 0;
+ 5         }
+ 6         .loyaot-float{
+ 7             min-height: 100px;
+ 8         }
+ 9         .loyaot-float article{
+10             height: 100px;
+11         }
+12         .wrapper{
+13             float: left;
+14             width: 100%;
+15         }
+16         .center{
+17             margin: 0 210px;
+18             background: yellow;
+19         }
+20         .left, .right{
+21             float: left;
+22             width: 210px;
+23             height: 100%;
+24         }
+25         .left {
+26             margin-left: -100%;
+27             background: red;
+28         }
+29         .right {
+30             margin-left: -210px;
+31             background: blue;
+32         }
+33     </style>
+ 1 <section class="loyaot-float">
+ 2         <article>
+ 3             <div class="wrapper">
+ 4                 <div class="center">
+ 5                     <p>我是float+margin负边距布局</p>
+ 6                     <p>我是float+margin负边距布局</p>
+ 7                     <p>我是float+margin负边距布局</p>
+ 8                     <p>我是float+margin负边距布局</p>
+ 9                 </div>
+10             </div>
+11             <div class="left"></div>
+12             <div class="right"></div>
+13         </article>
+14     </section>
+　　三. 绝对定位
+
+　　　　优点：简单，好理解，兼容性好。
+
+　　　　缺点：不能自适应高度
+
+ 1 <style>
+ 2         html *{
+ 3             padding: 0;
+ 4             margin: 0;
+ 5         }
+ 6         .loyaot-float{
+ 7             min-height: 100px;
+ 8         }
+ 9         .loyaot-float article{
+10             height: 100px;
+11         }
+12         .left, .right {
+13             position: absolute;
+14             top: 0;
+15             width: 210px;
+16             height: 100px;
+17         }
+18         .left{
+19             left: 0;
+20             background:red;
+21         }
+22         .right{
+23             right: 0;
+24             background: blue;
+25         }
+26         .center{
+27             position: absolute;
+28             top:0;
+29             left: 210px;
+30             right:210px;
+31             background: yellow;
+32         }
+33     </style>
+34 
+35     <section class="loyaot-float">
+36         <article>
+37             <div class="left"></div>
+38             <div class="right"></div>
+39             <div class="center">
+40                 <p>我是绝对定位布局</p>
+41                 <p>我是绝对定位布局</p>
+42                 <p>我是绝对定位布局</p>
+43                 <p>我是绝对定位布局</p>
+44             </div>
+45         </article>
+46     </section>
+　　四：display:table-cell 表格布局
+
+　　　　优点：ie8+支持 ，代码简单，能够自适应高度。
+
+　　　　缺点：不能兼容ie6/7
+
+ 1 <style>
+ 2         html *{
+ 3             padding: 0;
+ 4             margin: 0;
+ 5         }
+ 6         .loyaot-float{
+ 7             min-height: 100px;
+ 8         }
+ 9         .loyaot-float article{
+10             display: table;
+11             width: 100%;
+12             height: 100px;
+13         }
+14         .loyaot-float article>div{
+15             display: table-cell;
+16         }
+17         .left, .right {
+18             width: 210px;
+19             height: 100px;
+20         }
+21         .left{
+22             background: red;
+23         }
+24         .right{
+25             background: blue;
+26         }
+27         .center{
+28             background: yellow;
+29         }
+30     </style>
+ 1 <section class="loyaot-float">
+ 2         <article>
+ 3             <div class="left"></div>
+ 4             <div class="center">
+ 5                 <p>我是表格布局</p>
+ 6                 <p>我是表格布局</p>
+ 7                 <p>我是表格布局</p>
+ 8                 <p>我是表格布局</p>
+ 9             </div>
+10             <div class="right"></div>
+11         </article>
+12     </section>
+　　五 ：flex布局
+
+　　　　优点：简单，自适应高度。
+
+　　　　缺点：兼容不了低版本ie浏览器 
+
+ 1 <style>
+ 2         html *{
+ 3             padding: 0;
+ 4             margin: 0;
+ 5         }
+ 6         .loyaot-float{
+ 7             min-height: 100px;
+ 8         }
+ 9         .loyaot-float article{
+10             display: flex;
+11             width: 100%;
+12         }
+13         .left{
+14             width: 210px;
+15             background: red;
+16         }
+17         .right{
+18             width: 210px;
+19             background: blue;
+20         }
+21         .center{
+22             flex: 1;
+23             background: yellow;
+24         }
+25     </style>
+26 
+27 
+28     <section class="loyaot-float">
+29         <article>
+30             <div class="left"></div>
+31             <div class="center">
+32                 <p>我是flex布局</p>
+33                 <p>我是flex布局</p>
+34                 <p>我是flex布局</p>
+35                 <p>我是flex布局</p>
+36             </div>
+37             <div class="right"></div>
+38         </article>
+39     </section>
+　　六：网格布局
+
+　　　　优点：简单，css3最新特性。
+
+　　　　缺点：不支持自适应高度。
+
+ 1 <style>
+ 2         html *{
+ 3             padding: 0;
+ 4             margin: 0;
+ 5         }
+ 6         .left{
+ 7             background: red;
+ 8         }
+ 9         .right{
+10             background: blue;
+11         }
+12         .center{
+13             background: yellow;
+14         }
+15         .loyaot-float article{
+16             display: grid;
+17             width: 100%;
+18             grid-template-rows:100px;
+19             grid-template-columns:210px auto 210px;
+20         }
+21     </style>
+22 
+23 
+24 <section class="loyaot-float">
+25         <article>
+26             <div class="left"></div>
+27             <div class="center">
+28                 <p>我是grid布局</p>
+29                 <p>我是grid布局</p>
+30                 <p>我是grid布局</p>
+31                 <p>我是grid布局</p>
+32             </div>
+33             <div class="right"></div>
+34         </article>
+35     </section>
+ 
+
+grid
